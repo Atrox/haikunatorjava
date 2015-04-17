@@ -42,40 +42,39 @@ public class Haikunator {
      * @return String
      */
     public static String haikunate(Map<String, Object> params) {
-        String delimiter = "-", tokenChars = "0123456789";
+        String adjective, noun, delimiter = "-", tokenChars = "0123456789", token = "";
         int tokenLength = 4;
         boolean tokenHex = false;
 
         if (params.containsKey("delimiter")) {
             if (!(params.get("delimiter") instanceof String)) {
-                throw new IllegalArgumentException("...");
+                throw new IllegalArgumentException("delimiter must be a string");
             }
             delimiter = (String)params.get("delimiter");
         }
         if (params.containsKey("tokenChars")) {
             if (!(params.get("tokenChars") instanceof String)) {
-                throw new IllegalArgumentException("...");
+                throw new IllegalArgumentException("tokenChars must be a string");
             }
             tokenChars = (String)params.get("tokenChars");
         }
         if (params.containsKey("tokenLength")) {
             if (!(params.get("tokenLength") instanceof Integer)) {
-                throw new IllegalArgumentException("...");
+                throw new IllegalArgumentException("tokenLength must be an integer");
             }
             tokenLength = (Integer)params.get("tokenLength");
         }
         if (params.containsKey("tokenHex")) {
             if (!(params.get("tokenHex") instanceof Boolean)) {
-                throw new IllegalArgumentException("...");
+                throw new IllegalArgumentException("tokenHex must be an boolean");
             }
             tokenHex = (Boolean)params.get("tokenHex");
         }
 
         if (tokenHex) tokenChars = "0123456789abcdef";
 
-        String adjective = ADJECTIVES[rnd.nextInt(ADJECTIVES.length)];
-        String noun = NOUNS[rnd.nextInt(NOUNS.length)];
-        String token = "";
+        adjective = ADJECTIVES[rnd.nextInt(ADJECTIVES.length)];
+        noun = NOUNS[rnd.nextInt(NOUNS.length)];
 
         for (int i = 0; i < tokenLength; i++) {
             token += tokenChars.charAt(rnd.nextInt(tokenChars.length()));
