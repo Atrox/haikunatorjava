@@ -1,4 +1,6 @@
-package at.atrox.haikunator;
+package me.atrox.haikunator;
+
+import com.sun.deploy.util.StringUtils;
 
 import java.util.*;
 
@@ -82,6 +84,6 @@ public class Haikunator {
         List<String> list = new ArrayList<String>(Arrays.asList(adjective, noun, token));
         list.removeAll(Arrays.asList("", null));
 
-        return String.join(delimiter, list);
+        return StringUtils.join(list, delimiter);
     }
 }

@@ -13,9 +13,7 @@ To install Haikunator, do the following... *Soon*
 Haikunator is pretty simple.
 
 ```java
-import at.atrox.haikunator;
-import java.util.Map;
-
+import me.atrox.haikunator;
 Map<String, Object> map = new HashMap<String, Object>();
 
 // default usage

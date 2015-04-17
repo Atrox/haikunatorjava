@@ -1,4 +1,4 @@
-package at.atrox.haikunator;
+package me.atrox.haikunator;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -29,14 +29,6 @@ public class HaikunatorTest extends TestCase {
     public static Test suite()
     {
         return new TestSuite( HaikunatorTest.class );
-    }
-
-    /**
-     * Rigourous Test :-)
-     */
-    public void testApp()
-    {
-        assertTrue( true );
     }
 
     public void testDefaultUse() {
