@@ -1,5 +1,7 @@
 # HaikunatorJAVA
 
+[![Travis](https://img.shields.io/travis/Atrox/haikunatorjava.svg?style=flat-square)](https://travis-ci.org/Atrox/haikunatorjava)
+
 Generate Heroku-like random names to use in your Java applications.
 
 ## Installation
@@ -57,7 +59,7 @@ The following options are available:
 ```java
 map.put("delimiter", "-");
 map.put("tokenLength", 4);
-map.put("tokenHex", true");
+map.put("tokenHex", true);
 map.put("tokenChars", "0123456789");
 
 Haikunator.haikunate(map)
