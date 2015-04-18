@@ -8,9 +8,6 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 
-## Directory-based project format:
-.idea/
-
 ## Maven
 target/
 pom.xml.tag

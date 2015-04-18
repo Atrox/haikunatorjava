@@ -1,12 +1,21 @@
 # HaikunatorJAVA
 
-[![Travis](https://img.shields.io/travis/Atrox/haikunatorjava.svg?style=flat-square)](https://travis-ci.org/Atrox/haikunatorjava)
+[![Build Status](https://img.shields.io/travis/Atrox/haikunatorjava.svg?style=flat-square)](https://travis-ci.org/Atrox/haikunatorjava)
+[![Latest Version](https://maven-badges.herokuapp.com/maven-central/me.atrox.haikunator/Haikunator/badge.svg?style=flat-square)](https://maven-badges.herokuapp.com/maven-central/me.atrox.haikunator/Haikunator)
 
 Generate Heroku-like random names to use in your Java applications.
 
 ## Installation
 
-To install Haikunator, do the following... *Soon*
+To install Haikunator add the following to your maven configuration
+```xml
+<dependency>
+    <groupId>me.atrox.haikunator</groupId>
+    <artifactId>Haikunator</artifactId>
+    <version>1.1</version>
+</dependency>
+```
+*For more examples how to add Haikunator to your project, [follow this link](https://maven-badges.herokuapp.com/maven-central/me.atrox.haikunator/Haikunator)*
 
 ## Usage
 
