@@ -12,7 +12,7 @@ To install Haikunator add the following to your maven configuration
 <dependency>
     <groupId>me.atrox.haikunator</groupId>
     <artifactId>Haikunator</artifactId>
-    <version>1.1</version>
+    <version>1.2</version>
 </dependency>
 ```
 *For more examples how to add Haikunator to your project, [follow this link](https://maven-badges.herokuapp.com/maven-central/me.atrox.haikunator/Haikunator)*
@@ -23,40 +23,38 @@ Haikunator is pretty simple.
 
 ```java
 import me.atrox.haikunator;
-Map<String, Object> map = new HashMap<String, Object>();
 
 // default usage
-Haikunator.haikunate(map) // => "wispy-dust-1337"
+Haikunator haikunator = new HaikunatorBuilder().build();
+haikunator.haikunate() // => "wispy-dust-1337"
 
 // custom length (default=4)
-map.put("tokenLength", 6);
-Haikunator.haikunate(map) // => "patient-king-887265"
+Haikunator haikunator = new HaikunatorBuilder().setTokenLength(6).build();
+haikunator.haikunate() // => "patient-king-887265"
 
 // use hex instead of numbers
-map.put("tokenHex", true);
-Haikunator.haikunate(map) // => "purple-breeze-98e1"
+Haikunator haikunator = new HaikunatorBuilder().setTokenHex(true).build();
+haikunator.haikunate() // => "purple-breeze-98e1"
 
 // use custom chars instead of numbers/hex
-map.put("tokenChars", "HAIKUNATE")
-Haikunator.haikunate(map) // => "summer-atom-IHEA"
+Haikunator haikunator = new HaikunatorBuilder().setTokenChars("HAIKUNATE").build();
+haikunator.haikunate() // => "summer-atom-IHEA"
 
 // don't include a token
-map.put("tokenLength", 0);
-Haikunator.haikunate(map) // => "cold-wildflower"
+Haikunator haikunator = new HaikunatorBuilder().setTokenLength(0).build();
+haikunator.haikunate() // => "cold-wildflower"
 
 // use a different delimiter
-map.put("delimiter", ".");
-Haikunator.haikunate(map) // => "restless.sea.7976"
+Haikunator haikunator = new HaikunatorBuilder().setDelimiter(".").build();
+haikunator.haikunate() // => "restless.sea.7976"
 
 // no token, space delimiter
-map.put("tokenLength", 0);
-map.put("delimiter", " ");
-Haikunator.haikunate(map) // => "delicate haze"
+Haikunator haikunator = new HaikunatorBuilder().setTokenLength(0).setDelimiter(" ").build();
+haikunator.haikunate() // => "delicate haze"
 
 // no token, empty delimiter
-map.put("tokenLength", 0);
-map.put("delimiter", "");
-Haikunator.haikunate(map) // => "billowingleaf"
+Haikunator haikunator = new HaikunatorBuilder().setTokenLength(0).setDelimiter("").build();
+haikunator.haikunate() // => "billowingleaf"
 ```
 
 ## Options
@@ -64,12 +62,12 @@ Haikunator.haikunate(map) // => "billowingleaf"
 The following options are available:
 
 ```java
-map.put("delimiter", "-");
-map.put("tokenLength", 4);
-map.put("tokenHex", true);
-map.put("tokenChars", "0123456789");
-
-Haikunator.haikunate(map)
+Haikunator haikunator = new HaikunatorBuilder()
+                            .setDelimiter("-")
+                            .setTokenLength(4)
+                            .setTokenHex(false)
+                            .setTokenChars("0123456789")
+                            .build();
 ```
 *If ```tokenHex``` is true, it overrides any tokens specified in ```tokenChars```*
 

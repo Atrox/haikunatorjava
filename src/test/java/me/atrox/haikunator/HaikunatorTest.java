@@ -4,14 +4,10 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * Unit test for simple App.
  */
 public class HaikunatorTest extends TestCase {
-    private Map<String, Object> map = new HashMap<String, Object>();
 
     /**
      * Create the test case
@@ -32,73 +28,73 @@ public class HaikunatorTest extends TestCase {
     }
 
     public void testDefaultUse() {
-        String haiku = Haikunator.haikunate(map);
+        Haikunator haikunator = new HaikunatorBuilder().build();
+        String haiku = haikunator.haikunate();
+
         assertTrue(haiku.matches("((?:[a-z][a-z]+))(-)((?:[a-z][a-z]+))(-)(\\d{4})$"));
     }
 
     public void testHexUse() {
-        map.put("tokenHex", true);
+        Haikunator haikunator = new HaikunatorBuilder().setTokenHex(true).build();
+        String haiku = haikunator.haikunate();
 
-        String haiku = Haikunator.haikunate(map);
         assertTrue(haiku.matches("((?:[a-z][a-z]+))(-)((?:[a-z][a-z]+))(-)(.{4})$"));
     }
 
     public void test9DigitsUse() {
-        map.put("tokenLength", 9);
+        Haikunator haikunator = new HaikunatorBuilder().setTokenLength(9).build();
+        String haiku = haikunator.haikunate();
 
-        String haiku = Haikunator.haikunate(map);
         assertTrue(haiku.matches("((?:[a-z][a-z]+))(-)((?:[a-z][a-z]+))(-)(\\d{9})$"));
     }
 
     public void test9DigitsAsHexUse() {
-        map.put("tokenLength", 9);
-        map.put("tokenHex", true);
+        Haikunator haikunator = new HaikunatorBuilder().setTokenHex(true).setTokenLength(9).build();
+        String haiku = haikunator.haikunate();
 
-        String haiku = Haikunator.haikunate(map);
         assertTrue(haiku.matches("((?:[a-z][a-z]+))(-)((?:[a-z][a-z]+))(-)(.{9})$"));
     }
 
     public void testWontReturnSameForSubsequentCalls() {
-        String haiku = Haikunator.haikunate(map);
-        String haiku2 = Haikunator.haikunate(map);
+        Haikunator haikunator = new HaikunatorBuilder().build();
+        String haiku = haikunator.haikunate();
+        String haiku2 = haikunator.haikunate();
 
         assertNotSame(haiku, haiku2);
     }
 
     public void testDropsToken() {
-        map.put("tokenLength", 0);
+        Haikunator haikunator = new HaikunatorBuilder().setTokenLength(0).build();
+        String haiku = haikunator.haikunate();
 
-        String haiku = Haikunator.haikunate(map);
         assertTrue(haiku.matches("((?:[a-z][a-z]+))(-)((?:[a-z][a-z]+))$"));
     }
 
     public void testPermitsOptionalDelimiter() {
-        map.put("delimiter", ".");
+        Haikunator haikunator = new HaikunatorBuilder().setDelimiter(".").build();
+        String haiku = haikunator.haikunate();
 
-        String haiku = Haikunator.haikunate(map);
         assertTrue(haiku.matches("((?:[a-z][a-z]+))(\\.)((?:[a-z][a-z]+))(\\.)(\\d+)$"));
     }
 
     public void testSpaceDelimiterAndNoToken() {
-        map.put("delimiter", " ");
-        map.put("tokenLength", 0);
+        Haikunator haikunator = new HaikunatorBuilder().setDelimiter(" ").setTokenLength(0).build();
+        String haiku = haikunator.haikunate();
 
-        String haiku = Haikunator.haikunate(map);
         assertTrue(haiku.matches("((?:[a-z][a-z]+))( )((?:[a-z][a-z]+))$"));
     }
 
     public void testOneSingleWord() {
-        map.put("delimiter", "");
-        map.put("tokenLength", 0);
+        Haikunator haikunator = new HaikunatorBuilder().setDelimiter("").setTokenLength(0).build();
+        String haiku = haikunator.haikunate();
 
-        String haiku = Haikunator.haikunate(map);
         assertTrue(haiku.matches("((?:[a-z][a-z]+))$"));
     }
 
     public void testCustomChars() {
-        map.put("tokenChars", "A");
+        Haikunator haikunator = new HaikunatorBuilder().setTokenChars("A").build();
+        String haiku = haikunator.haikunate();
 
-        String haiku = Haikunator.haikunate(map);
         assertTrue(haiku.matches("((?:[a-z][a-z]+))(-)((?:[a-z][a-z]+))(-)(AAAA)$"));
     }
 }
