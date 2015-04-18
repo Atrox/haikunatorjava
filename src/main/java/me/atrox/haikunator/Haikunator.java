@@ -81,33 +81,3 @@ public class Haikunator {
         return sb.toString();
     }
 }
-
-class HaikunatorBuilder {
-    private String delimiter = "-", tokenChars = "0123456789";
-    private int tokenLength = 4;
-    private boolean tokenHex = false;
-
-    HaikunatorBuilder setDelimiter(String delimiter) {
-        this.delimiter = delimiter;
-        return this;
-    }
-
-    HaikunatorBuilder setTokenChars(String tokenChars) {
-        this.tokenChars = tokenChars;
-        return this;
-    }
-
-    HaikunatorBuilder setTokenLength(int tokenLength) {
-        this.tokenLength = tokenLength;
-        return this;
-    }
-
-    HaikunatorBuilder setTokenHex(boolean tokenHex) {
-        this.tokenHex = tokenHex;
-        return this;
-    }
-
-    Haikunator build() {
-        return new Haikunator(delimiter, tokenChars, tokenLength, tokenHex);
-    }
-}
