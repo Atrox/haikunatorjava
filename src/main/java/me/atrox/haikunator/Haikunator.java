@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-class Haikunator {
+public class Haikunator {
     private Random rnd = new Random();
     private String[] ADJECTIVES = {
         "autumn", "hidden", "bitter", "misty", "silent", "empty", "dry", "dark",
