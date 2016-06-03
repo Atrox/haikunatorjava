@@ -3,7 +3,7 @@
 [![Build Status](https://img.shields.io/travis/Atrox/haikunatorjava.svg?style=flat-square)](https://travis-ci.org/Atrox/haikunatorjava)
 [![Latest Version](https://maven-badges.herokuapp.com/maven-central/me.atrox.haikunator/Haikunator/badge.svg?style=flat-square)](https://maven-badges.herokuapp.com/maven-central/me.atrox.haikunator/Haikunator)
 
-Generate Heroku-like random names to use in your Java applications.
+Generate Heroku-like random names to use in your java applications.
 
 ## Installation
 
@@ -12,7 +12,7 @@ To install Haikunator add the following to your maven configuration
 <dependency>
     <groupId>me.atrox.haikunator</groupId>
     <artifactId>Haikunator</artifactId>
-    <version>1.2</version>
+    <version>1.3</version>
 </dependency>
 ```
 *For more examples how to add Haikunator to your project, [follow this link](https://maven-badges.herokuapp.com/maven-central/me.atrox.haikunator/Haikunator)*
@@ -68,6 +68,10 @@ Haikunator haikunator = new HaikunatorBuilder()
                             .setTokenHex(false)
                             .setTokenChars("0123456789")
                             .build();
+
+haikunator.setAdjectives(new String[]{"..."});
+haikunator.setNouns(new String[]{"..."});
+haikunator.setRandom(new Random(1234));
 ```
 *If ```tokenHex``` is true, it overrides any tokens specified in ```tokenChars```*
 

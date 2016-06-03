@@ -4,6 +4,8 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import java.util.Random;
+
 /**
  * Unit test for simple App.
  */
@@ -14,17 +16,15 @@ public class HaikunatorTest extends TestCase {
      *
      * @param testName name of the test case
      */
-    public HaikunatorTest(String testName)
-    {
-        super( testName );
+    public HaikunatorTest(String testName) {
+        super(testName);
     }
 
     /**
      * @return the suite of tests being tested
      */
-    public static Test suite()
-    {
-        return new TestSuite( HaikunatorTest.class );
+    public static Test suite() {
+        return new TestSuite(HaikunatorTest.class);
     }
 
     public void testDefaultUse() {
@@ -96,5 +96,37 @@ public class HaikunatorTest extends TestCase {
         String haiku = haikunator.haikunate();
 
         assertTrue(haiku.matches("((?:[a-z][a-z]+))(-)((?:[a-z][a-z]+))(-)(AAAA)$"));
+    }
+
+    public void testCustomAdjectivesAndNouns() {
+        Haikunator haikunator = new HaikunatorBuilder().build();
+        haikunator.setAdjectives(new String[]{"red"});
+        haikunator.setNouns(new String[]{"reindeer"});
+
+        String haiku = haikunator.haikunate();
+
+        assertTrue(haiku.matches("(red)(-)(reindeer)(-)(\\d{4})$"));
+    }
+
+    public void testRemoveAdjectivesAndNouns() {
+        Haikunator haikunator = new HaikunatorBuilder().build();
+        haikunator.setAdjectives(new String[]{});
+        haikunator.setNouns(new String[]{});
+
+        String haiku = haikunator.haikunate();
+
+        assertTrue(haiku.matches("(\\d{4})$"));
+    }
+
+    public void testCustomRandomWithSeed() {
+        Haikunator haikunator = new HaikunatorBuilder().build();
+        haikunator.setRandom(new Random(1234));
+        String haiku1 = haikunator.haikunate();
+
+        Haikunator haikunator2 = new HaikunatorBuilder().build();
+        haikunator2.setRandom(new Random(1234));
+        String haiku2 = haikunator2.haikunate();
+
+        assertEquals(haiku1, haiku2);
     }
 }
