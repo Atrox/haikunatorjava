@@ -1,7 +1,5 @@
 package me.atrox.haikunator;
 
-import org.apache.commons.lang3.StringUtils;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -38,44 +36,12 @@ public class Haikunator {
             "wood"
     };
     private Random random = new Random();
-    private String delimiter;
-    private int tokenLength;
-    private boolean tokenHex;
-    private String tokenChars;
+    private String delimiter = "-";
+    private String tokenChars = "0123456789";
+    private int tokenLength = 4;
+    private boolean tokenHex = false;
 
-    Haikunator(String delimiter, String tokenChars, int tokenLength, boolean tokenHex) {
-        this.delimiter = delimiter;
-        this.tokenChars = tokenChars;
-        this.tokenLength = tokenLength;
-        this.tokenHex = tokenHex;
-    }
-
-    Haikunator(HaikunatorBuilder builder) {
-        this(builder.getDelimiter(), builder.getTokenChars(), builder.getTokenLength(), builder.isTokenHex());
-    }
-
-    public String[] getAdjectives() {
-        return adjectives;
-    }
-
-    public void setAdjectives(String[] adjectives) {
-        this.adjectives = adjectives;
-    }
-
-    public String[] getNouns() {
-        return nouns;
-    }
-
-    public void setNouns(String[] nouns) {
-        this.nouns = nouns;
-    }
-
-    public Random getRandom() {
-        return random;
-    }
-
-    public void setRandom(Random random) {
-        this.random = random;
+    public Haikunator() {
     }
 
     /**
@@ -91,17 +57,80 @@ public class Haikunator {
         String adjective = randomString(adjectives);
         String noun = randomString(nouns);
 
-        String token = "";
-        if (tokenChars.length() > 0) {
+        StringBuilder token = new StringBuilder();
+        if (tokenChars != null && tokenChars.length() > 0) {
             for (int i = 0; i < tokenLength; i++) {
-                token += tokenChars.charAt(random.nextInt(tokenChars.length()));
+                token.append(tokenChars.charAt(random.nextInt(tokenChars.length())));
             }
         }
 
-        List<String> sections = new ArrayList<String>(Arrays.asList(adjective, noun, token));
+        List<String> sections = new ArrayList<>(Arrays.asList(adjective, noun, token.toString()));
         sections.removeAll(Arrays.asList("", null));
 
-        return StringUtils.join(sections, delimiter);
+        return String.join(delimiter, sections);
+    }
+
+    public String[] getAdjectives() {
+        return adjectives;
+    }
+
+    public Haikunator setAdjectives(String[] adjectives) {
+        this.adjectives = adjectives;
+        return this;
+    }
+
+    public String[] getNouns() {
+        return nouns;
+    }
+
+    public Haikunator setNouns(String[] nouns) {
+        this.nouns = nouns;
+        return this;
+    }
+
+    public Random getRandom() {
+        return random;
+    }
+
+    public Haikunator setRandom(Random random) {
+        this.random = random;
+        return this;
+    }
+
+    public String getDelimiter() {
+        return delimiter;
+    }
+
+    public Haikunator setDelimiter(String delimiter) {
+        this.delimiter = delimiter;
+        return this;
+    }
+
+    public String getTokenChars() {
+        return tokenChars;
+    }
+
+    public Haikunator setTokenChars(String tokenChars) {
+        this.tokenChars = tokenChars;
+        return this;
+    }
+
+    public int getTokenLength() {
+        return tokenLength;
+    }
+
+    public Haikunator setTokenLength(int tokenLength) {
+        this.tokenLength = tokenLength;
+        return this;
+    }
+
+    public boolean isTokenHex() {
+        return tokenHex;
+    }
+
+    public Haikunator setTokenHex(boolean tokenHex) {
+        this.tokenHex = tokenHex;
+        return this;
     }
 
     /**
@@ -111,9 +140,7 @@ public class Haikunator {
      * @return String
      */
     private String randomString(String[] s) {
-        int length = s.length;
-        if (length <= 0) return "";
-
-        return s[random.nextInt(length)];
+        if (s == null || s.length <= 0) return "";
+        return s[this.random.nextInt(s.length)];
     }
 }
