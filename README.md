@@ -2,6 +2,7 @@
 
 [![Build Status](https://img.shields.io/travis/Atrox/haikunatorjava.svg?style=flat-square)](https://travis-ci.org/Atrox/haikunatorjava)
 [![Latest Version](https://maven-badges.herokuapp.com/maven-central/me.atrox.haikunator/Haikunator/badge.svg?style=flat-square)](https://maven-badges.herokuapp.com/maven-central/me.atrox.haikunator/Haikunator)
+[![Coverage Status](https://img.shields.io/coveralls/Atrox/haikunatorjava.svg?style=flat-square)](https://coveralls.io/r/Atrox/haikunatorjava)
 
 Generate Heroku-like random names to use in your java applications.
 
