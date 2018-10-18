@@ -1,132 +1,72 @@
 package me.atrox.haikunator;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
+import java.util.stream.Stream;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Unit test for simple App.
+ * Unit test for haikunator
  */
-public class HaikunatorTest extends TestCase {
+class HaikunatorTest {
 
     /**
-     * Create the test case
-     *
-     * @param testName name of the test case
+     * Arguments for general functionality test
      */
-    public HaikunatorTest(String testName) {
-        super(testName);
+    static Stream<Arguments> testGeneralFunctionality() {
+        return Stream.of(
+                Arguments.of(new Haikunator(), "[a-z]+-[a-z]+-[0-9]{4}$"),
+                Arguments.of(new Haikunator().setTokenHex(true), "[a-z]+-[a-z]+-[0-f]{4}$"),
+                Arguments.of(new Haikunator().setTokenLength(9), "[a-z]+-[a-z]+-[0-9]{9}$"),
+                Arguments.of(new Haikunator().setTokenLength(9).setTokenHex(true), "[a-z]+-[a-z]+-[0-f]{9}$"),
+                Arguments.of(new Haikunator().setTokenLength(0), "[a-z]+-[a-z]+$"),
+                Arguments.of(new Haikunator().setDelimiter("."), "[a-z]+.[a-z]+.[0-9]{4}$"),
+                Arguments.of(new Haikunator().setDelimiter(" ").setTokenLength(0), "[a-z]+ [a-z]+$"),
+                Arguments.of(new Haikunator().setDelimiter("").setTokenLength(0), "[a-z]+$"),
+                Arguments.of(new Haikunator().setTokenChars("xyz"), "[a-z]+-[a-z]+-[x-z]{4}$"),
+                Arguments.of(new Haikunator().setAdjectives(new String[]{"adjective"}).setNouns(new String[]{"noun"}), "adjective-noun-\\d{4}$")
+        );
     }
 
-    /**
-     * @return the suite of tests being tested
-     */
-    public static Test suite() {
-        return new TestSuite(HaikunatorTest.class);
-    }
-
-    public void testDefaultUse() {
-        Haikunator haikunator = new HaikunatorBuilder().build();
+    @ParameterizedTest(name = "testGeneralFunctionality #{index}")
+    @MethodSource
+    void testGeneralFunctionality(Haikunator haikunator, String regex) {
         String haiku = haikunator.haikunate();
-
-        assertTrue(haiku.matches("((?:[a-z][a-z]+))(-)((?:[a-z][a-z]+))(-)(\\d{4})$"));
+        assertTrue(haiku.matches(regex));
     }
 
-    public void testHexUse() {
-        Haikunator haikunator = new HaikunatorBuilder().setTokenHex(true).build();
-        String haiku = haikunator.haikunate();
+    @Test
+    void testWontReturnSameForSubsequentCalls() {
+        List<Haikunator> haikunators = Arrays.asList(new Haikunator(), new Haikunator());
 
-        assertTrue(haiku.matches("((?:[a-z][a-z]+))(-)((?:[a-z][a-z]+))(-)(.{4})$"));
+        for (Haikunator h1 : haikunators) {
+            for (Haikunator h2 : haikunators) {
+                assertNotEquals(h1.haikunate(), h2.haikunate());
+            }
+        }
     }
 
-    public void test9DigitsUse() {
-        Haikunator haikunator = new HaikunatorBuilder().setTokenLength(9).build();
-        String haiku = haikunator.haikunate();
+    @Test
+    void testReturnsSameForSameSeed() {
+        Long seed = 1001L;
 
-        assertTrue(haiku.matches("((?:[a-z][a-z]+))(-)((?:[a-z][a-z]+))(-)(\\d{9})$"));
+        Haikunator h1 = new Haikunator().setRandom(new Random(seed));
+        Haikunator h2 = new Haikunator().setRandom(new Random(seed));
+
+        assertEquals(h1.haikunate(), h2.haikunate());
+        assertEquals(h1.haikunate(), h2.haikunate());
     }
 
-    public void test9DigitsAsHexUse() {
-        Haikunator haikunator = new HaikunatorBuilder().setTokenHex(true).setTokenLength(9).build();
-        String haiku = haikunator.haikunate();
-
-        assertTrue(haiku.matches("((?:[a-z][a-z]+))(-)((?:[a-z][a-z]+))(-)(.{9})$"));
-    }
-
-    public void testWontReturnSameForSubsequentCalls() {
-        Haikunator haikunator = new HaikunatorBuilder().build();
-        String haiku = haikunator.haikunate();
-        String haiku2 = haikunator.haikunate();
-
-        assertNotSame(haiku, haiku2);
-    }
-
-    public void testDropsToken() {
-        Haikunator haikunator = new HaikunatorBuilder().setTokenLength(0).build();
-        String haiku = haikunator.haikunate();
-
-        assertTrue(haiku.matches("((?:[a-z][a-z]+))(-)((?:[a-z][a-z]+))$"));
-    }
-
-    public void testPermitsOptionalDelimiter() {
-        Haikunator haikunator = new HaikunatorBuilder().setDelimiter(".").build();
-        String haiku = haikunator.haikunate();
-
-        assertTrue(haiku.matches("((?:[a-z][a-z]+))(\\.)((?:[a-z][a-z]+))(\\.)(\\d+)$"));
-    }
-
-    public void testSpaceDelimiterAndNoToken() {
-        Haikunator haikunator = new HaikunatorBuilder().setDelimiter(" ").setTokenLength(0).build();
-        String haiku = haikunator.haikunate();
-
-        assertTrue(haiku.matches("((?:[a-z][a-z]+))( )((?:[a-z][a-z]+))$"));
-    }
-
-    public void testOneSingleWord() {
-        Haikunator haikunator = new HaikunatorBuilder().setDelimiter("").setTokenLength(0).build();
-        String haiku = haikunator.haikunate();
-
-        assertTrue(haiku.matches("((?:[a-z][a-z]+))$"));
-    }
-
-    public void testCustomChars() {
-        Haikunator haikunator = new HaikunatorBuilder().setTokenChars("A").build();
-        String haiku = haikunator.haikunate();
-
-        assertTrue(haiku.matches("((?:[a-z][a-z]+))(-)((?:[a-z][a-z]+))(-)(AAAA)$"));
-    }
-
-    public void testCustomAdjectivesAndNouns() {
-        Haikunator haikunator = new HaikunatorBuilder().build();
-        haikunator.setAdjectives(new String[]{"red"});
-        haikunator.setNouns(new String[]{"reindeer"});
-
-        String haiku = haikunator.haikunate();
-
-        assertTrue(haiku.matches("(red)(-)(reindeer)(-)(\\d{4})$"));
-    }
-
-    public void testRemoveAdjectivesAndNouns() {
-        Haikunator haikunator = new HaikunatorBuilder().build();
-        haikunator.setAdjectives(new String[]{});
-        haikunator.setNouns(new String[]{});
-
-        String haiku = haikunator.haikunate();
-
-        assertTrue(haiku.matches("(\\d{4})$"));
-    }
-
-    public void testCustomRandomWithSeed() {
-        Haikunator haikunator = new HaikunatorBuilder().build();
-        haikunator.setRandom(new Random(1234));
-        String haiku1 = haikunator.haikunate();
-
-        Haikunator haikunator2 = new HaikunatorBuilder().build();
-        haikunator2.setRandom(new Random(1234));
-        String haiku2 = haikunator2.haikunate();
-
-        assertEquals(haiku1, haiku2);
+    @Test
+    void testZeroLengthOptionsException() {
+        Haikunator haikunator = new Haikunator().setAdjectives(null).setNouns(null).setTokenChars(null);
+        assertEquals(haikunator.haikunate(), "");
     }
 }
