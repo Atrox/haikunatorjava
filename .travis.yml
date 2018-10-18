@@ -2,6 +2,9 @@ language: java
 
 jdk:
   - oraclejdk8
+  - oraclejdk10
   - openjdk8
+  - openjdk11
+  - openjdk-ea
 
 script: mvn -B clean test jacoco:report coveralls:report
