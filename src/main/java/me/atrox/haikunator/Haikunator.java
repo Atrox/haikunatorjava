@@ -1,9 +1,9 @@
 package me.atrox.haikunator;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Random;
+import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.joining;
 
 public class Haikunator {
     private String[] adjectives = {
@@ -64,10 +64,9 @@ public class Haikunator {
             }
         }
 
-        List<String> sections = new ArrayList<>(Arrays.asList(adjective, noun, token.toString()));
-        sections.removeAll(Arrays.asList("", null));
-
-        return String.join(delimiter, sections);
+        return Stream.of(adjective, noun, token.toString())
+                .filter(s -> s != null && !s.isEmpty())
+                .collect(joining(delimiter));
     }
 
     public String[] getAdjectives() {
