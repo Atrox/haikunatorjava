@@ -4,7 +4,7 @@
     <groupId>me.atrox.haikunator</groupId>
     <artifactId>Haikunator</artifactId>
     <packaging>jar</packaging>
-    <version>2.0.0</version>
+    <version>2.0.1</version>
     <name>Haikunator</name>
     <description>Generate Heroku-like random names to use in your Java applications.</description>
     <url>https://github.com/Atrox/haikunatorjava</url>

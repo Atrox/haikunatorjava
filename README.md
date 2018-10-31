@@ -13,7 +13,7 @@ To install Haikunator add the following to your maven configuration
 <dependency>
     <groupId>me.atrox.haikunator</groupId>
     <artifactId>Haikunator</artifactId>
-    <version>2.0.0</version>
+    <version>2.0.1</version>
 </dependency>
 ```
 *For more examples how to add Haikunator to your project, [follow this link](https://maven-badges.herokuapp.com/maven-central/me.atrox.haikunator/Haikunator)*
